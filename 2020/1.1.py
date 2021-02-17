@@ -11,5 +11,5 @@ for i in input:
         if i+j == sum:
             print(i, j, i*j)
 
-        if i+j>sum:
+        if i+j > sum:
             break
