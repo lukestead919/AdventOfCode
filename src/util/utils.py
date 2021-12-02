@@ -1,3 +1,14 @@
+# from typing import NewType
+
+# Point = NewType("Point", (int, int))
+
+
+class Point:
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+
+
 def read_file(file_path: str):
     with open(file_path) as f:
         return f.read()
