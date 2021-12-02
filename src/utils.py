@@ -1,8 +1,3 @@
-# from typing import NewType
-
-# Point = NewType("Point", (int, int))
-
-
 class Point:
     def __init__(self, x: int, y: int):
         self.x = x

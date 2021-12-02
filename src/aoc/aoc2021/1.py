@@ -1,4 +1,4 @@
-from src.util.utils import read_data_file_as_ints
+from utils import read_data_file_as_ints
 
 data = read_data_file_as_ints(1)
 

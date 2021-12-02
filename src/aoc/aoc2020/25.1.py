@@ -1,4 +1,4 @@
-from src.util.utils import read_file_as_lines
+from utils import read_file_as_lines
 
 input = [int(i) for i in read_file_as_lines("DataFiles/25.txt")]
 

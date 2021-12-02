@@ -1,4 +1,4 @@
-from src.util.utils import read_data_file_as_lines, Point
+from utils import read_data_file_as_lines, Point
 from functools import reduce
 
 
