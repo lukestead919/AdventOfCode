@@ -46,7 +46,7 @@ def flip_binary(bin: str):
 
 
 def flip_bit(bit: str) -> str:
-    return "1" if bit == "0" else "0"
+    return str(1-int(bit))
 
 
 def find_rating(lst: list[str], most_common: bool) -> str:
