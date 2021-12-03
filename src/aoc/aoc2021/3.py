@@ -50,7 +50,6 @@ def find_rating(lst: list[str], most_common: bool) -> str:
 def calculate_life_support(data: list[str]):
     o2 = find_rating(data, True)
     co2 = find_rating(data, False)
-    print(o2, co2)
     return int(o2, 2) * int(co2, 2)
 
 
