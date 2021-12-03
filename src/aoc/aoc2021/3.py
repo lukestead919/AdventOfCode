@@ -21,7 +21,6 @@ def merge_bits(bits: list[str]) -> str:
 
 def calculate_power(data: list[str]):
     binary = merge_binaries(data)
-    print(binary)
     binary_flip = flip_binary(binary)
     gamma = int(binary, 2)
     epsilon = int(binary_flip, 2)
