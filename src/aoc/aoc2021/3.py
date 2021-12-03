@@ -2,19 +2,6 @@ from utils import read_data_file_as_lines
 
 data = read_data_file_as_lines(3)
 
-test = ["00100",
-        "11110",
-        "10110",
-        "10111",
-        "10101",
-        "01111",
-        "00111",
-        "11100",
-        "10000",
-        "11001",
-        "00010",
-        "01010"]
-
 
 def merge_binaries(binaries: list[str]) -> str:
     bin_length = len(binaries[0])
@@ -51,13 +38,12 @@ def flip_bit(bit: str) -> str:
 
 def find_rating(lst: list[str], most_common: bool) -> str:
     matches = lst[::]
-    index = 0
-    while len(matches) > 1:
+    for index in range(len(lst[0])):
         to_match = merge_bits_at_index(matches, index)
         if not most_common:
             to_match = flip_bit(to_match)
+
         matches = [a for a in matches if a[index] == to_match]
-        index += 1
         if len(matches) == 1:
             return matches[0]
 
@@ -68,9 +54,6 @@ def calculate_life_support(data: list[str]):
     print(o2, co2)
     return int(o2, 2) * int(co2, 2)
 
-
-print("part 1 test", calculate_power(test))
-print("part 2 test", calculate_life_support(test))
 
 print("part 1", calculate_power(data))
 print("part 2", calculate_life_support(data))
