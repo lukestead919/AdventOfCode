@@ -9,8 +9,7 @@ class BingoCard:
         self.card = np.array(card)
 
     def lines(self):
-        return [self.card[:, i] for i in range(self.card.shape[0])] \
-               + [self.card[i, :] for i in range(self.card.shape[1])]
+        return self.card.tolist() + self.card.T.tolist()
 
     def is_winner(self, called_nums: list[int]):
         lines = self.lines()
@@ -58,13 +57,13 @@ def create_bingo_game(data) -> BingoGame:
 
 
 def get_winning_score(game_results):
-    winner = min(list(game_results.items()), key=lambda x: x[1])
-    return game.get_score_at_round(winner[0], winner[1])
+    card, round = min(list(game_results.items()), key=lambda x: x[1])
+    return game.get_score_at_round(card, round)
 
 
 def get_losing_score(game_results):
-    loser = max(list(game_results.items()), key=lambda x: x[1])
-    return game.get_score_at_round(loser[0], loser[1])
+    card, round = max(list(game_results.items()), key=lambda x: x[1])
+    return game.get_score_at_round(card, round)
 
 
 game = create_bingo_game(data)
