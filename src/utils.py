@@ -23,3 +23,13 @@ def read_data_file_as_ints(num: int):
 
 def zip_with_next(lst: list):
     return list(zip(lst, lst[1:]))
+
+
+def chunked(lst: list, chunk_size: int):
+    return [lst[i:i+chunk_size] for i in range(0, len(lst), chunk_size)]
+
+
+def split_to_ints(str: str) -> list[int]:
+    return [int(a) for a in str.strip().split()]
+
+
