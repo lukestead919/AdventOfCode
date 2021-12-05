@@ -10,7 +10,7 @@ class Line:
         self.end = end
 
     def get_points(self) -> list[Point]:
-        vector = Point(self.end.x - self.start.x, self.end.y - self.start.y)
+        vector = self.end - self.start
         magnitude = max(abs(vector.x), abs(vector.y))  # not really for diagonals but good enough
         angle = Point(vector.x // magnitude, vector.y // magnitude)
         return [self.start + distance * angle for distance in range(magnitude + 1)]

@@ -21,6 +21,9 @@ class Point:
     def __rmul__(self, other: int):
         return Point(other * self.x, other * self.y)
 
+    def __sub__(self, other):
+        return Point(self.x - other.x, self.y - other.y)
+
 
 def read_file(file_path: str):
     with open(file_path) as f:
