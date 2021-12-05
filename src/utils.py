@@ -51,3 +51,5 @@ def split_to_ints(str: str) -> list[int]:
     return [int(a) for a in str.strip().split()]
 
 
+def flatten(lst: list[list])-> list:
+    return [a for b in lst for a in b]

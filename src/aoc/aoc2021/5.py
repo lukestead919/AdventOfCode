@@ -1,4 +1,4 @@
-from utils import read_data_file_as_lines, Point
+from utils import read_data_file_as_lines, Point, flatten
 from collections import Counter
 
 data = read_data_file_as_lines(5)
@@ -20,11 +20,9 @@ class Line:
 
 
 class GridCounter:
-    def __init__(self):
-        self.counter = Counter()
-
-    def add_line(self, line: Line):
-        self.counter.update(line.get_points())
+    def __init__(self, lines: list[Line]):
+        points = flatten([line.get_points() for line in lines])
+        self.counter = Counter(points)
 
     def count_crossings(self):
         return len([v for v in self.counter.values() if v > 1])
@@ -45,13 +43,11 @@ def parse_point(point: str) -> Point:
 
 
 def count_crossings_in_lines(lines: list[Line]) -> int:
-    grid_counter = GridCounter()
-    for line in lines:
-        grid_counter.add_line(line)
+    grid_counter = GridCounter(lines)
     return grid_counter.count_crossings()
 
 
 lines = [parse_line(line) for line in data]
-non_diagonals = [l for l in lines if not l.is_diagonal()]
+non_diagonals = [line for line in lines if not line.is_diagonal()]
 print("part 1", count_crossings_in_lines(non_diagonals))
 print("part 2", count_crossings_in_lines(lines))
