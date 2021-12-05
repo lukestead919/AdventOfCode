@@ -13,7 +13,7 @@ class Line:
         vector = Point(self.end.x - self.start.x, self.end.y - self.start.y)
         magnitude = max(abs(vector.x), abs(vector.y))  # not really for diagonals but good enough
         angle = Point(vector.x // magnitude, vector.y // magnitude)
-        return [self.start + m * angle for m in range(magnitude + 1)]
+        return [self.start + distance * angle for distance in range(magnitude + 1)]
 
     def is_diagonal(self) -> bool:
         return self.start.x != self.end.x and self.start.y != self.end.y
