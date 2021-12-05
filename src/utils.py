@@ -3,6 +3,24 @@ class Point:
         self.x = x
         self.y = y
 
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return f"Point({self.x}, {self.y})"
+
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+
+    def __rmul__(self, other: int):
+        return Point(other * self.x, other * self.y)
+
 
 def read_file(file_path: str):
     with open(file_path) as f:
