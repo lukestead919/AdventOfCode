@@ -11,7 +11,7 @@ class Line:
 
     def get_points(self) -> list[Point]:
         vector = Point(self.end.x - self.start.x, self.end.y - self.start.y)
-        magnitude = max(abs(vector.x), abs(vector.y))  # not really but good enough
+        magnitude = max(abs(vector.x), abs(vector.y))  # not really for diagonals but good enough
         angle = Point(vector.x // magnitude, vector.y // magnitude)
         return [self.start + m * angle for m in range(magnitude + 1)]
 
@@ -34,10 +34,6 @@ class GridCounter:
             print(' '.join([str(self.counter[Point(i, j)]) for i in range(length)]).replace("0", "."))
 
 
-def parse_data(data: list[str]) -> list[Line]:
-    return [parse_line(line) for line in data]
-
-
 def parse_line(line: str) -> Line:
     points = line.split(" -> ")
     return Line(parse_point(points[0]), parse_point(points[1]))
@@ -55,7 +51,7 @@ def count_crossings_in_lines(lines: list[Line]) -> int:
     return grid_counter.count_crossings()
 
 
-lines = parse_data(data)
+lines = [parse_line(line) for line in data]
 non_diagonals = [l for l in lines if not l.is_diagonal()]
 print("part 1", count_crossings_in_lines(non_diagonals))
 print("part 2", count_crossings_in_lines(lines))
