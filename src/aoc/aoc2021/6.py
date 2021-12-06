@@ -3,8 +3,8 @@ from utils import read_data_file_as_lines
 class FishPopulation:
     def __init__(self, fish_timers):
         pop = [0] * 9
-        for fish_timers in fish_timers:
-            pop[fish_timers] += 1
+        for fish_timer in fish_timers:
+            pop[fish_timer] += 1
         self.pop = pop
 
     def generation(self):
