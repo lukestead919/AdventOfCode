@@ -11,9 +11,6 @@ def fuel_burned_for_distance(d: int) -> int:
     return d*(d+1)//2
 
 
-fuel = 10**100
-for i in range(1000):
-    total_fuel = sum([fuel_burned_for_distance(abs(d-i)) for d in data])
-    fuel = min(fuel, total_fuel)
+fuels_for_positions = [sum([fuel_burned_for_distance(abs(d-i)) for d in data]) for i in range(1000)]
 
-print("part 2", fuel)
+print("part 2", min(fuels_for_positions))
