@@ -42,6 +42,10 @@ def read_data_file_as_ints(num: int):
     return [int(x) for x in read_data_file_as_lines(num)]
 
 
+def read_data_file_int_list(num: int, delimiter=","):
+    return [int(x) for x in read_data_file_as_lines(num)[0].split(delimiter)]
+
+
 def zip_with_next(lst: list):
     return list(zip(lst, lst[1:]))
 
