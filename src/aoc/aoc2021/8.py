@@ -3,7 +3,6 @@ from itertools import permutations
 
 data = read_data_file_as_lines(8)
 
-
 seg_dict = {"abcefg": 0, "cf": 1, "acdeg": 2, "acdfg": 3, "bcdf": 4, "abdfg": 5, "abdefg": 6, "acf": 7, "abcdefg": 8, "abcdfg": 9}
 
 
@@ -54,12 +53,12 @@ def parse_line(line: str):
     return Combination(input, output)
 
 
-lines = [parse_line(line) for line in data]
+codes = [parse_line(line) for line in data]
 easy_lengths = [2, 3, 4, 7]
-outputs = flatten([line.output.output for line in lines])
+outputs = flatten([code.output.output for code in codes])
 print("part 1", len([o for o in outputs if len(o) in easy_lengths]))
 
-deciphered = [line.decipher() for line in lines]
+deciphered = [code.decipher() for code in codes]
 print(deciphered)
 
 print("part 2", sum(deciphered))
