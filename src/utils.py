@@ -3,6 +3,20 @@ class Point:
         self.x = x
         self.y = y
 
+    def get_neighbours(self):
+        return [
+            Point(self.x - 1, self.y),
+            Point(self.x + 1, self.y),
+            Point(self.x, self.y - 1),
+            Point(self.x, self.y + 1),
+        ]
+
+    def tuple(self):
+        return self.x, self.y
+
+    def __call__(self, *args, **kwargs):
+        return self.tuple()
+
     def __repr__(self):
         return self.__str__()
 
@@ -58,5 +72,5 @@ def split_to_ints(str: str) -> list[int]:
     return [int(a) for a in str.strip().split()]
 
 
-def flatten(lst: list[list])-> list:
+def flatten(lst: list[list]) -> list:
     return [a for b in lst for a in b]
