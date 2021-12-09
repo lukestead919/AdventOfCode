@@ -1,7 +1,6 @@
 from utils import read_data_file_as_lines, Point
 import numpy as np
 from collections import Counter
-import colorsys
 
 
 class colors: # You may need to change color settings
