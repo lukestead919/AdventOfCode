@@ -4,12 +4,13 @@ class Point:
         self.y = y
 
     def get_neighbours(self):
-        return [
-            Point(self.x - 1, self.y),
-            Point(self.x + 1, self.y),
-            Point(self.x, self.y - 1),
-            Point(self.x, self.y + 1),
+        adjacent = [
+            Point(-1, 0),
+            Point(1, 0),
+            Point(0, -1),
+            Point(0, 1),
         ]
+        return [self + n for n in adjacent]
 
     def tuple(self):
         return self.x, self.y

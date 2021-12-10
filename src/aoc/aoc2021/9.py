@@ -46,7 +46,7 @@ class Heightmap:
         (m, n) = self.array.shape
         return [p for p in index.get_neighbours() if 0 <= p.x < m and 0 <= p.y < n]
 
-    def get_neighbours_values(self, index: Point) -> list[Point]:
+    def get_neighbours_values(self, index: Point):
         return [self.array[p()] for p in self.get_neighbours(index)]
 
     def count_minima(self):
