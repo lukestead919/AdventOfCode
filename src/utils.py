@@ -3,7 +3,7 @@ class Point:
         self.x = x
         self.y = y
 
-    def get_neighbours(self):
+    def get_orthogonal_neighbours(self):
         adjacent = [
             Point(-1, 0),
             Point(1, 0),
@@ -11,6 +11,18 @@ class Point:
             Point(0, 1),
         ]
         return [self + n for n in adjacent]
+
+    def get_diagonal_neighbours(self):
+        adjacent = [
+            Point(-1, -1),
+            Point(1, -1),
+            Point(-1, 1),
+            Point(1, 1),
+        ]
+        return [self + n for n in adjacent]
+
+    def get_all_neighbours(self):
+        return self.get_orthogonal_neighbours() + self.get_diagonal_neighbours()
 
     def tuple(self):
         return self.x, self.y
