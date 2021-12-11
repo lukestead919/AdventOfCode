@@ -7,7 +7,7 @@ array = np.array(data)
 
 class OctopusGrid:
     def __init__(self, octopi: np.ndarray):
-        self.octopi = octopi
+        self.octopi = np.array(octopi)
 
     def get_neighbours(self, index: Point):
         m, n = self.octopi.shape
@@ -28,10 +28,8 @@ class OctopusGrid:
                 return i
 
     def generation(self):
-        self.octopi = self.octopi + 1
-        to_flash = np.argwhere(self.octopi > 9)
-        for o in to_flash:
-            self.flash_octopus(Point(o[0], o[1]))
+        for i, j in np.ndindex(self.octopi.shape):
+            self.increment_octopus(Point(i, j))
 
         self.octopi = np.where(self.octopi > 9, 0, self.octopi)
 
