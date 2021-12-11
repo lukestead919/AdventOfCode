@@ -1,9 +1,6 @@
 from utils import read_data_file_as_lines, Point
 import numpy as np
 
-data = read_data_file_as_lines(11)
-data = [[int(v) for v in line] for line in data]
-array = np.array(data)
 
 class OctopusGrid:
     def __init__(self, octopi: np.ndarray):
@@ -33,7 +30,7 @@ class OctopusGrid:
 
         self.octopi = np.where(self.octopi > 9, 0, self.octopi)
 
-        return len(np.argwhere(self.octopi == 0))
+        return np.count_nonzero(self.octopi == 0)
 
     def flash_octopus(self, index: Point):
         for p in self.get_neighbours(index):
@@ -45,6 +42,10 @@ class OctopusGrid:
         if current == 9:
             self.flash_octopus(index)
 
+
+data = read_data_file_as_lines(11)
+data = [[int(v) for v in line] for line in data]
+array = np.array(data)
 
 print("part 1", OctopusGrid(array).generations(100))
 print("part 2", OctopusGrid(array).steps_to_sync())
