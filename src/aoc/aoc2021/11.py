@@ -11,10 +11,7 @@ class OctopusGrid:
         return [p for p in index.get_all_neighbours() if 0 <= p.x < m and 0 <= p.y < n]
 
     def generations(self, age) -> int:
-        s = 0
-        for _ in range(age):
-            s += self.generation()
-        return s
+        return sum(self.generation() for _ in range(age))
 
     def steps_to_sync(self) -> int:
         i = 0
