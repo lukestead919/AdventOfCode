@@ -25,8 +25,7 @@ class OctopusGrid:
             i += 1
             s = self.generation()
             if s == self.octopi.size:
-                break
-        return i
+                return i
 
     def generation(self):
         self.octopi = self.octopi + 1
