@@ -1,26 +1,17 @@
 from utils import read_data_file_as_lines, flatten
-from collections import Counter
+from collections import Counter, defaultdict
 
 data = read_data_file_as_lines(12)
 
 
 class Caves:
     def __init__(self, connections):
-        cave_dict = {}
-
-        def add_connection(key, value):
-            current = cave_dict.get(key)
-            current = current if current is not None else []
-            current.append(value)
-            cave_dict[key] = current
-
-        def connect(a, b):
-            add_connection(a, b)
-            add_connection(b, a)
+        cave_dict = defaultdict(list)
 
         for connection in connections:
             a, b = connection.split('-')
-            connect(a, b)
+            cave_dict[a].append(b)
+            cave_dict[b].append(a)
 
         self.cave_dict = cave_dict
 
