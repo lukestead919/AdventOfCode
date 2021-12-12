@@ -50,4 +50,3 @@ def valid_path_b(path: list[str]):
 caves = Caves(data)
 print("part 1", len(caves.paths(valid_path_a)))
 print("part 2", len(caves.paths(valid_path_b)))
-
