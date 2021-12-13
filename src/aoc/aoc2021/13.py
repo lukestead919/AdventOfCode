@@ -19,8 +19,8 @@ def get_fold_y(y: int):
     return lambda p: Point(p.x, y - abs(p.y - y))
 
 
-def apply_folds(points: set[Point], folds: list[str]):
-    return reduce(lambda points, fold: set(get_fold(fold)(p) for p in points), folds, points)
+def apply_folds(points: set[Point], folds):
+    return reduce(lambda points, fold: set(fold(p) for p in points), folds, points)
 
 
 def print_code(points: set[Point]):
@@ -34,7 +34,7 @@ data = read_data_file_as_lines(13)
 divide = data.index("")
 points, folds = data[:divide], data[divide+1:]
 points = set([Point(int(x), int(y)) for x, y in [p.split(',') for p in points]])
-folds = [c for _, _, c in [f.split(" ") for f in folds]]
+folds = [get_fold(c) for _, _, c in [f.split(" ") for f in folds]]
 
 print("part 1", len(apply_folds(points, folds[:1])))
 
