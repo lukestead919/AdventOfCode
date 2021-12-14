@@ -17,7 +17,7 @@ class PolymerFactory:
         new_polymer = [''] * 2 * len(polymer)
         for i, pair in enumerate(pairs):
             new_polymer[2*i] = pair[0]
-            new_polymer[2*i + 1] = rules.get(pair)
+            new_polymer[2*i + 1] = self.rules.get(pair)
         new_polymer[-1] = polymer[-1]
         return ''.join(new_polymer)
 
@@ -69,10 +69,14 @@ def part_b(template, polymer_factory):
     print("part 2", (sorted_elements[0][1] - sorted_elements[-1][1]))
 
 
-data = read_data_file_as_lines(14)
-template, rules = data[0], data[2:]
-rules = dict([(a, b) for a, b in [line.split(" -> ") for line in rules]])
-polymer_factory = PolymerFactory(rules)
+def main():
+    data = read_data_file_as_lines(14)
+    template, rules = data[0], data[2:]
+    rules = dict([(a, b) for a, b in [line.split(" -> ") for line in rules]])
+    polymer_factory = PolymerFactory(rules)
 
-part_a(template, polymer_factory)
-part_b(template, polymer_factory)
+    part_a(template, polymer_factory)
+    part_b(template, polymer_factory)
+
+
+main()
