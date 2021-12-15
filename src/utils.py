@@ -24,6 +24,10 @@ class Point:
     def get_all_neighbours(self):
         return self.get_orthogonal_neighbours() + self.get_diagonal_neighbours()
 
+    def in_grid(self, grid):
+        m, n = grid.shape
+        return 0 <= self.x < m and 0 <= self.y < n
+
     def tuple(self):
         return self.x, self.y
 
