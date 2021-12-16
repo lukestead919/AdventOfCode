@@ -1,15 +1,6 @@
 from utils import read_data_file_as_lines
 from functools import reduce
 
-data = read_data_file_as_lines(16)[0]
-print(data)
-binary = f"{int(data,  16):b}"
-print(binary)
-binary_length = len(binary)
-if binary_length % 4 > 0:
-    binary = binary.zfill(binary_length + 4-(binary_length % 4))
-print(binary)
-
 
 def bin(str):
     return int(str, 2)
@@ -22,24 +13,6 @@ class Packet:
         self.value = value
         self.subpackets = subpackets
 
-    # def version(self):
-    #     return bin(self.str[:3])
-    #
-    # def type(self):
-    #     return bin(self.str[3:6])
-    #
-    # def subpackets(self):
-    #     if self.type() != 4:
-    #         len_type = self.str[7]
-    #         if len_type == 0:
-    #             bit_length = bin(self.str[8:23])
-    #             subpackets = parse_packets(self.str[23:23+bit_length])
-    #         if len_type == 1:
-    #             bit_length = bin(self.str[8:19])
-    #             subpackets = parse_packets(self.str[19:19+bit_length])
-    #
-    # def value(self):
-    #     return int(self.str[6:])
     def version_recursive(self):
         v = self.version
         for sub in self.subpackets:
@@ -106,6 +79,12 @@ def parse_next_packet(data: str) -> (Packet, str):
 
 
 def main():
+    data = read_data_file_as_lines(16)[0]
+    binary = f"{int(data,  16):b}"
+    binary_length = len(binary)
+    if binary_length % 4 > 0:
+        binary = binary.zfill(binary_length + 4-(binary_length % 4))
+
     packets, _ = parse_packets(binary)
     packet = packets[0]
     print("part 1", packet.version_recursive())
