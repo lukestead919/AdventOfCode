@@ -30,12 +30,9 @@ class Entry(ABC):
         pass
 
 
-class Number(Entry):
+class Regular(Entry):
     def __init__(self, value: int):
         self.value = value
-
-    def __add__(self, other):
-        self.value += other.value
 
     def __repr__(self):
         return f"{self.value}"
@@ -54,7 +51,7 @@ class Number(Entry):
 
     def split(self):
         if self.value > 9:
-            return Pair(Number(self.value // 2), Number(self.value - (self.value // 2)))
+            return Pair(Regular(self.value // 2), Regular(self.value - (self.value // 2)))
 
 
 class Pair(Entry):
@@ -97,7 +94,7 @@ class Pair(Entry):
         explode_result = self.first.explode(depth + 1)
         if explode_result:
             if depth == 3:
-                self.first = Number(0)
+                self.first = Regular(0)
             add_to_left, add_to_right = explode_result
 
             self.second.add_left(add_to_right)
@@ -106,7 +103,7 @@ class Pair(Entry):
         explode_result = self.second.explode(depth + 1)
         if explode_result:
             if depth == 3:
-                self.second = Number(0)
+                self.second = Regular(0)
             add_to_left, add_to_right = explode_result
 
             self.first.add_right(add_to_left)
@@ -146,7 +143,7 @@ def parse(s: str):
                 second = middle[idx+1:]
                 return Pair(parse(first), parse(second))
     else:
-        return Number(int(s))
+        return Regular(int(s))
 
 
 def test():
