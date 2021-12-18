@@ -5,8 +5,6 @@ from copy import deepcopy
 from abc import ABC, abstractmethod
 from typing import Optional
 
-data = read_data_file_as_lines(18)
-
 
 class Entry(ABC):
     @abstractmethod
@@ -140,7 +138,7 @@ def parse(s: str):
                 open_brackets -= 1
             elif char == "," and open_brackets == 0:
                 first = middle[0:idx]
-                second = middle[idx+1:]
+                second = middle[idx + 1:]
                 return Pair(parse(first), parse(second))
     else:
         return Regular(int(s))
@@ -154,10 +152,12 @@ def test():
 
 
 def main():
+    data = read_data_file_as_lines(18)
     pairs = [parse(s) for s in data]
-    result = reduce(lambda x, y: x+y, pairs)
+    result = reduce(lambda x, y: x + y, pairs)
+    print(result)
     print("part 1", result.magnitude())
-    print("part 2", max((x+y).magnitude() for x, y in product(pairs, pairs)))
+    print("part 2", max((x + y).magnitude() for x, y in product(pairs, pairs)))
 
 
 # test()
