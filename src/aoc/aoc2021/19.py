@@ -22,9 +22,9 @@ class PermsGenerator:
             else:
                 coords = coords.flip()
 
-        return [self.create_lambda(c) for c in perms]
+        return [self.create_perm(c) for c in perms]
 
-    def create_lambda(self, coords):
+    def create_perm(self, coords):
         return lambda c: Coords(
                 sgn(coords.x)*c.tuple()[abs(coords.x) - 1],
                 sgn(coords.y)*c.tuple()[abs(coords.y) - 1],
@@ -32,36 +32,6 @@ class PermsGenerator:
             )
 
 
-# class NpPermsGenerator:
-#     @cached_property
-#     def perms(self):
-#         perms = []
-#         curr_perm = np.identity(3)
-#         while len(perms) < 24:
-#             # print(len(perms), perms)
-#             if not any(np.array_equal(curr_perm, perm) for perm in perms):
-#                 perms.append(curr_perm)
-#
-#             rand = random.randint(0, 1)
-#             if rand == 0:
-#                 curr_perm = self.flip(curr_perm)
-#             else:
-#                 curr_perm = self.rotate(curr_perm)
-#
-#         return perms
-#
-#     def flip(self, coords):
-#         return np.matmul(np.array([[1, 0, 0], [0, 0, -1], [0, 1, 0]]), coords)
-#
-#     def rotate(self, coords):
-#         return np.matmul(np.array([[0, 1, 0], [0, 0, 1], [1, 0, 0]]), coords)
-
-
-# def matrix_in_list(mat: np.ndarray, mats: list[np.ndarray]):
-#     return any(np.array_equal(mat, mat2) for mat2 in mats)
-
-# np_perms_generator = NpPermsGenerator()
-# print(np_perms_generator.perms)
 perms_generator = PermsGenerator()
 
 
@@ -96,30 +66,16 @@ class Coords:
         return abs(self.x) + abs(self.y) + abs(self.z)
 
 
-# class Beacon:
-#     def __init__(self, coords: Coords):
-#         self.coords = coords
-#         # self.x = coords[0]
-#         # self.y = coords[1]
-#         # self.z = coords[2]
-#
-#     # def array(self):
-#     #     return self.coords.coords
-
-
 class Scanner:
     def __init__(self, beacons: set[Coords]):
         self.beacons = beacons
-        self.coords = None
+        self.location = None
 
     def add_beacons(self, beacons: list[Coords]):
         self.beacons.update(beacons)
 
-    def distance(self, scanner):
-        return (scanner.coords - self.coords).manhattan_distance()
-
-    # def beacon_coords(self):
-    #     return [beacon.coords for beacon in self.beacons]
+    def distance_to(self, scanner):
+        return (scanner.location - self.location).manhattan_distance()
 
     def overlaps(self, other):
         other_beacons = other.beacons
@@ -127,32 +83,16 @@ class Scanner:
             rotated = [perm(beacon) for beacon in other_beacons]
             overlap = self.check_for_overlaps(rotated)
             if overlap:
-                other.coords = overlap
+                other.location = overlap
                 translated_beacons = [b - overlap for b in rotated]
                 self.add_beacons(translated_beacons)
-                return overlap
 
     def check_for_overlaps(self, beacons: list[Coords]):
-        # for other_beacon in beacons:
-        #     for self_beacon in self.beacons:
-        #         difference = other_beacon - self_beacon
-        #         mapped = [other_beacon - difference for other_beacon in beacons]
-        #         beacon_arrays = self.beacons
-        #         if sum(m in beacon_arrays for m in mapped) >= 12:
-        #             return mapped
         differences = [other_beacon - self_beacon for other_beacon, self_beacon in product(beacons, self.beacons)]
         difference_count = Counter(differences).most_common(1)[0]
-        # print(difference_count)
         if difference_count[1] >= 12:
             scanner_position = difference_count[0]
-            # print("scanner pos", translation)
-
             return scanner_position
-                # difference = other_beacon - self_beacon
-                # mapped = [other_beacon - difference for other_beacon in beacons]
-                # beacon_arrays = self.beacons
-                # if sum(m in beacon_arrays for m in mapped) >= 12:
-                #     return mapped
 
 
 def parse(data: list[str]) -> list[Scanner]:
@@ -174,25 +114,24 @@ def parse(data: list[str]) -> list[Scanner]:
 def test():
     coords = Coords(1, 2, 3)
     perms = coords.perms()
-    # print(len(perms), perms)
+    print(len(perms), perms)
 
 
 def main():
     data = read_data_file_as_lines(19)
     scanners = parse(data)
     first_scanner = scanners[0]
-    first_scanner.coords = Coords(0, 0, 0)
-    for i in range(4):
+    first_scanner.location = Coords(0, 0, 0)
+    scanners_left = scanners
+    while len(scanners_left) > 0:
+        for scanner in scanners_left:
+            first_scanner.overlaps(scanner)
 
-        for scanner in scanners[1:]:
-            overlaps = first_scanner.overlaps(scanner)
-            # print(overlaps)
-
+        scanners_left = [s for s in scanners_left if s.location is None]
         print(len(first_scanner.beacons))
-    print(len(first_scanner.beacons))
-    print(sorted(first_scanner.beacons))
 
-    print("part 2", max(a.distance(b) for a, b in permutations(scanners, 2)))
+    print("part 1", len(first_scanner.beacons))
+    print("part 2", max(a.distance_to(b) for a, b in permutations(scanners, 2)))
 
 
 # test()
