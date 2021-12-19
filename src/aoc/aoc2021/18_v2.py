@@ -27,27 +27,9 @@ class SnailFishNumber:
     numbers: list[NumberWithDepth]
 
     def __add__(self, other):
-        numbers = [n.increment_depth() for n in self.numbers + other.numbers]
-        sfn = SnailFishNumber(numbers)
+        sfn = SnailFishNumber([n.increment_depth() for n in self.numbers + other.numbers])
         sfn.reduce()
         return sfn
-
-    def halfway(self):
-        percentage_complete = [sum(pow(2, -nums.depth) for nums in self.numbers[:i]) for i in range(len(self.numbers))]
-        return percentage_complete.index(0.5)
-
-    def get_pair(self) -> tuple:
-        halfway = self.halfway()
-        numbers = [n.decrement_depth() for n in self.numbers]
-        return SnailFishNumber(numbers[:halfway]), \
-            SnailFishNumber(numbers[halfway:])
-
-    def magnitude(self):
-        if len(self.numbers) == 1 and self.numbers[0].depth == 0:
-            return self.numbers[0].value
-        else:
-            left, right = self.get_pair()
-            return 3 * left.magnitude() + 2 * right.magnitude()
 
     def reduce(self):
         while True:
@@ -79,6 +61,23 @@ class SnailFishNumber:
         if len(split_candidates) > 0:
             index, to_split = split_candidates[0]
             self.numbers = self.numbers[:index] + to_split.split() + self.numbers[index+1:]
+
+    def magnitude(self):
+        if len(self.numbers) == 1 and self.numbers[0].depth == 0:
+            return self.numbers[0].value
+        else:
+            left, right = self.get_pair()
+            return 3 * left.magnitude() + 2 * right.magnitude()
+
+    def get_pair(self) -> tuple:
+        halfway = self.halfway()
+        numbers = [n.decrement_depth() for n in self.numbers]
+        return SnailFishNumber(numbers[:halfway]), \
+            SnailFishNumber(numbers[halfway:])
+
+    def halfway(self):
+        percentage_complete = [sum(pow(2, -nums.depth) for nums in self.numbers[:i]) for i in range(len(self.numbers))]
+        return percentage_complete.index(0.5)
 
 
 def parse(s: str):
