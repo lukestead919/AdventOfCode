@@ -62,9 +62,9 @@ class SnailFishNumber:
             break
 
     def explode(self):
-        depth_5s = [i for i, x in enumerate(self.numbers) if x.depth > 4]
-        if len(depth_5s) > 0:
-            index = depth_5s[0]
+        explode_candidates = [i for i, x in enumerate(self.numbers) if x.depth > 4]
+        if len(explode_candidates) > 0:
+            index = explode_candidates[0]
             left, right = self.numbers[index:index+2]
             self.numbers = self.numbers[:index] + [NumberWithDepth(0, left.depth - 1)] + self.numbers[index+2:]
             self.add(index - 1, left.value)
@@ -75,13 +75,13 @@ class SnailFishNumber:
             self.numbers[index].value += num
 
     def split(self):
-        split_candidates = [a for a in enumerate(self.numbers) if a[1].value > 9]
+        split_candidates = [(i, x) for i, x in enumerate(self.numbers) if x.value > 9]
         if len(split_candidates) > 0:
             index, to_split = split_candidates[0]
             self.numbers = self.numbers[:index] + to_split.split() + self.numbers[index+1:]
 
 
-def parse_v2(s: str):
+def parse(s: str):
     nums = []
     depth = 0
     for idx, char in enumerate(s):
@@ -95,12 +95,12 @@ def parse_v2(s: str):
     return SnailFishNumber(nums)
 
 
-def main_v2():
+def main():
     data = read_data_file_as_lines(18)
-    pairs = [parse_v2(s) for s in data]
-    result = reduce(lambda x, y: x + y, pairs)
+    snailfishNumbers = [parse(s) for s in data]
+    result = reduce(lambda x, y: x + y, snailfishNumbers)
     print("part 1", result.magnitude())
-    print("part 2", max((x + y).magnitude() for x, y in product(pairs, pairs)))
+    print("part 2", max((x + y).magnitude() for x, y in product(snailfishNumbers, repeat=2)))
 
 
-main_v2()
+main()
