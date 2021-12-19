@@ -91,3 +91,12 @@ def split_to_ints(str: str) -> list[int]:
 
 def flatten(lst: list[list]) -> list:
     return [a for b in lst for a in b]
+
+
+def sgn(a: int) -> int:
+    if a > 0:
+        return 1
+    elif a == 0:
+        return 0
+    else:
+        return -1
