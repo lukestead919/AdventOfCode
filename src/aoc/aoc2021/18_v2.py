@@ -32,9 +32,12 @@ class SnailFishNumber:
         sfn.reduce()
         return sfn
 
-    def get_pair(self) -> tuple:
+    def halfway(self):
         percentage_complete = [sum(pow(2, -nums.depth) for nums in self.numbers[:i]) for i in range(len(self.numbers))]
-        halfway = percentage_complete.index(0.5)
+        return percentage_complete.index(0.5)
+
+    def get_pair(self) -> tuple:
+        halfway = self.halfway()
         numbers = [n.decrement_depth() for n in self.numbers]
         return SnailFishNumber(numbers[:halfway]), \
             SnailFishNumber(numbers[halfway:])
