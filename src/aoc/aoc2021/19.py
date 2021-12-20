@@ -18,9 +18,9 @@ class PermsGenerator:
             perms.add(coords)
             rand = random.randint(0, 1)
             if rand == 0:
-                coords = coords.rotate()
+                coords = coords.face_up()
             else:
-                coords = coords.flip()
+                coords = coords.rotate()
 
         return [self.create_perm(c) for c in perms]
 
@@ -53,10 +53,10 @@ class Coords:
     def tuple(self):
         return self.x, self.y, self.z
 
-    def rotate(self):
+    def face_up(self):
         return Coords(self.z, self.y, -self.x)
 
-    def flip(self):
+    def rotate(self):
         return Coords(self.x, self.z, -self.y)
 
     def perms(self):
@@ -77,14 +77,14 @@ class Scanner:
     def distance_to(self, scanner):
         return (scanner.location - self.location).manhattan_distance()
 
-    def overlaps(self, other):
+    def merge_with(self, other):
         other_beacons = other.beacons
         for perm in perms_generator():
             rotated = [perm(beacon) for beacon in other_beacons]
-            overlap = self.check_for_overlaps(rotated)
-            if overlap:
-                other.location = overlap
-                translated_beacons = [b - overlap for b in rotated]
+            scanner_position = self.check_for_overlaps(rotated)
+            if scanner_position:
+                other.location = scanner_position
+                translated_beacons = [b - scanner_position for b in rotated]
                 self.add_beacons(translated_beacons)
 
     def check_for_overlaps(self, beacons: list[Coords]):
@@ -125,7 +125,7 @@ def main():
     scanners_left = scanners
     while len(scanners_left) > 0:
         for scanner in scanners_left:
-            first_scanner.overlaps(scanner)
+            first_scanner.merge_with(scanner)
 
         scanners_left = [s for s in scanners_left if s.location is None]
         print(len(first_scanner.beacons))
