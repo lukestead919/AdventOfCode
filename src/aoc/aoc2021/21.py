@@ -1,4 +1,5 @@
 from utils import read_data_file_as_lines
+from collections import namedtuple
 from functools import cache, reduce
 from itertools import product
 from operator import add
@@ -36,16 +37,9 @@ class Game1:
         return ((self.round - 1) % 100) + 1
 
 
-class Scores:
-    def __init__(self, player1: int, player2: int):
-        self.player1 = player1
-        self.player2 = player2
-
+class Scores(namedtuple('Scores', ['player1', 'player2'])):
     def __add__(self, other):
         return Scores(self.player1 + other.player1, self.player2 + other.player2)
-
-    def __repr__(self):
-        return f"({self.player1}, {self.player2})"
 
 
 class Game2:
