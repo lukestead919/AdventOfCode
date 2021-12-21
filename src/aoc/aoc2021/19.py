@@ -53,10 +53,10 @@ class Coords:
     def tuple(self):
         return self.x, self.y, self.z
 
-    def face_up(self):
+    def face_up(self):  # rotate self up so we're now facing up
         return Coords(self.z, self.y, -self.x)
 
-    def rotate(self):
+    def rotate(self):  # keep looking forward but rotate clockwise
         return Coords(self.x, self.z, -self.y)
 
     def perms(self):
