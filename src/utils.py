@@ -100,3 +100,7 @@ def sgn(a: int) -> int:
         return 0
     else:
         return -1
+
+
+def not_none(lst: list) -> list:
+    return [a for a in lst if a is not None]
