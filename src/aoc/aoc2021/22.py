@@ -72,7 +72,7 @@ class Reactor:
 
 def parse_instruction(data: str):
     on, cuboid = data.split(" ")
-    on = 1 if on == "on" else 0
+    on = on == "on"
     cuboid = [a[2:].split("..") for a in cuboid.split(",")]
     xl, xh, yl, yh, zl, zh = [int(a) for a in flatten(cuboid)]
     return on, Cuboid(Point3D(xl, yl, zl), Point3D(xh, yh, zh))
